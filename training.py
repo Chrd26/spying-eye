@@ -2,13 +2,7 @@
 from ultralytics import YOLO
 
 # Load model
-model = ("models/yolov8n.pt")
+MODEL = YOLO("models/yolov8n.pt")
 
-result = model.train
-(
-    data = "analysis_data.yaml",
-    imgsz=1280,
-    epochs=10,
-    batch=8,
-    name="yolov8n_ver01"
-)
+# train the model
+MODEL.train(data="coco128.yaml", epochs=100, imgsz=640)
