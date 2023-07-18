@@ -1,4 +1,24 @@
 body
 {
-  background: black;
+  background: rgb(169,107,210);
+  background: linear-gradient(90deg, rgba(169,107,210,1) 0%, rgba(218,124,124,1) 50%, rgba(187,138,69,1) 100%);
+	background-size: 400% 400%;
+	animation: animatedgradient 500s ease infinite;
+	height: 100vh;
+}
+
+@keyframes animatedgradient
+{
+  0%{
+    backgorund-positon: 0% 50%;
+  }
+
+  50%{
+    background-position: 100% 50%;
+  }
+
+  100%{
+    background-position: 0% 50%;
+  }
+
 }

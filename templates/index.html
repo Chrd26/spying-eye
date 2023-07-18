@@ -1,1 +1,12 @@
 {% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+<!-- Header content-->
+{% block header %}
+    <h3>Spying Eye</h3>
+    <h3>
+        This is a web app that identifies objects Click <span>proceed</span> to turn on the device's camera.
+    </h3>
+    <h3>The app will shows you the detected objects in bounding boxes. It can detect vehicles, cats, dogs, and peple!</h3>
+{% endblock %}
+<!-- Main body content-->
+{% block main %}<button type="button" class="btn btn-outline-light">Proceed</button>{% endblock %}
