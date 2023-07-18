@@ -3,8 +3,67 @@ body
   background: rgb(169,107,210);
   background: linear-gradient(90deg, rgba(169,107,210,1) 0%, rgba(218,124,124,1) 50%, rgba(187,138,69,1) 100%);
 	background-size: 400% 400%;
-	animation: animatedgradient 500s ease infinite;
+	animation: animatedgradient 100s ease infinite;
 	height: 100vh;
+}
+
+#headline
+{
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index: 1;
+}
+
+#desc-1
+{
+  padding:2rem;
+  margin-top:7rem;
+  position:relative;
+  width:30rem;
+  left:10vw;
+  z-index: 0;
+}
+
+#desc-1:hover
+{
+  background: rgba(255, 255, 255, 0.2);
+}
+
+
+#desc-2
+{
+  margin-top:7rem;
+  padding:2rem;
+  position:relative;
+  width:35rem;
+  left:60vw;
+  z-index: 0;
+}
+
+#desc-2:hover
+{
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#headline
+{
+  text-align:center;
+}
+
+#proceed
+{
+  display:block;
+  text-align:center;
+  width:10em;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:7em;
+}
+
+.bold
+{
+  font-weight: bold;
 }
 
 @keyframes animatedgradient
