@@ -1,3 +1,8 @@
+html
+{
+  overflow: hidden;
+}
+
 body
 {
   background: rgb(169,107,210);
@@ -65,12 +70,14 @@ body
 {
   font-weight: bold;
 }
-
+/*More on borders: https://www.w3schools.com/css/css_border.asp*/
 #cameraVideo
 {
   display:none;
   margin:auto;
   background: gray;
+  margin-top:10em;
+  border: gray 8px double;
 }
 
 @keyframes animatedgradient
