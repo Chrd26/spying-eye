@@ -4,7 +4,7 @@
 {% block header %}
     <h2 id="headline"
         class="shadow-none p-3 mb-5 bg-body-tertiary rounded"
-        style="--bs-bg-opacity: 0.6">Spying Eye</h2>
+        style="--bs-bg-opacity: 0.4">Spying Eye</h2>
 {% endblock %}
 <!-- Main body content-->
 {% block main %}
@@ -14,6 +14,8 @@
     <h3 id="desc-2" class="p3 rounded-5">
         The app will shows you the detected objects in bounding boxes. It can detect vehicles, cats, dogs, and people!
     </h3>
+    <video autoplay="true" id="cameraVideo">
+    </video>
     <button id="proceed"
             type="button"
             class="btn btn-outline-light"

@@ -66,10 +66,17 @@ body
   font-weight: bold;
 }
 
+#cameraVideo
+{
+  display:none;
+  margin:auto;
+  background: gray;
+}
+
 @keyframes animatedgradient
 {
   0%{
-    backgorund-positon: 0% 50%;
+    background-position: 0% 50%;
   }
 
   50%{
