@@ -40,9 +40,9 @@ body
 {
   margin-top:7rem;
   padding:2rem;
-  position:relative;
+  position:absolute;
   width:35rem;
-  left:60vw;
+  right:10vw;
   z-index: 0;
 }
 
@@ -59,11 +59,13 @@ body
 #proceed
 {
   display:block;
+  position:absolute;
   text-align:center;
   width:10em;
-  margin-left:auto;
-  margin-right:auto;
-  margin-top:7em;
+  margin: auto;
+  right:0;
+  left:0;
+  top:80vh;
 }
 
 .bold
@@ -80,6 +82,9 @@ body
   border: gray 8px double;
 }
 
+/*Responsive Design*/
+
+/*Animations*/
 @keyframes animatedgradient
 {
   0%{
@@ -95,3 +100,89 @@ body
   }
 
 }
+
+@keyframes movedesc1
+{
+  0%
+  {
+    left:10vw;
+  }
+
+  100%
+  {
+    left:120vw;
+  }
+}
+
+@keyframes movedesc2
+{
+  0%
+  {
+    right:10vw;
+  }
+
+  100%
+  {
+    right:120vw;
+  }
+}
+
+
+@keyframes moveButton
+{
+  0%
+  {
+    top:80vh;
+  }
+
+  100%
+  {
+    top:120vh;
+  }
+}
+
+@keyframes movedesc1-return
+{
+  0%
+  {
+    left:120vw;
+  }
+
+  100%
+  {
+    left:10vw;
+  }
+}
+
+@keyframes movedesc2-return
+{
+  0%
+  {
+    right:120vw;
+  }
+
+  100%
+  {
+    right:10vw;
+  }
+}
+
+
+@keyframes moveButton-return
+{
+  0%
+  {
+    top:120vh;
+  }
+
+  100%
+  {
+    top:80vh;
+  }
+}
+
+
+
+
+
+
