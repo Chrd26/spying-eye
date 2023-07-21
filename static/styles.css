@@ -10,6 +10,7 @@ body
 	background-size: 400% 400%;
 	animation: animatedgradient 100s ease infinite;
 	height: 100vh;
+	width:100vw;
 }
 
 #headline
@@ -18,13 +19,14 @@ body
   top:0;
   width:100%;
   z-index: 1;
+  text-align:center;
 }
 
 #desc-1
 {
   padding:2rem;
   margin-top:7rem;
-  position:relative;
+  position:absolute;
   width:30rem;
   left:10vw;
   z-index: 0;
@@ -43,6 +45,7 @@ body
   position:absolute;
   width:35rem;
   right:10vw;
+  top:26vh;
   z-index: 0;
 }
 
@@ -80,9 +83,36 @@ body
   background: gray;
   margin-top:10em;
   border: gray 8px double;
+  max-height: 100vh;
+  max-width: 100vw;
+}
+
+#back
+{
+  display:none;
+  text-align: center;
+  width: 10em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 7em;
 }
 
 /*Responsive Design*/
+
+@media screen and (max-width:500px)
+{
+  #desc-1
+  {
+    width:25rem;
+    left:-3vw;
+  }
+
+  #desc-2
+  {
+    width:25rem;
+    right:-3vw;
+  }
+}
 
 /*Animations*/
 @keyframes animatedgradient
@@ -139,50 +169,3 @@ body
   {
     top:120vh;
   }
-}
-
-@keyframes movedesc1-return
-{
-  0%
-  {
-    left:120vw;
-  }
-
-  100%
-  {
-    left:10vw;
-  }
-}
-
-@keyframes movedesc2-return
-{
-  0%
-  {
-    right:120vw;
-  }
-
-  100%
-  {
-    right:10vw;
-  }
-}
-
-
-@keyframes moveButton-return
-{
-  0%
-  {
-    top:120vh;
-  }
-
-  100%
-  {
-    top:80vh;
-  }
-}
-
-
-
-
-
-

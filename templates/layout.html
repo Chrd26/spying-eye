@@ -34,6 +34,21 @@
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
   </script>
+  <!--Use ajax to call ML algorithms for video analysis-->
+  <!--Source: https://stackoverflow.com/questions/21566649/flask-button-run-python-without-refreshing-page-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type=text/javascript>
+        $(function() {
+          $('#proceed').on('click', function(e) {
+            e.preventDefault()
+            $.getJSON('/run_analysis',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+</script>
 </body>
 
 </html>

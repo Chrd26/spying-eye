@@ -42,7 +42,7 @@ proceeedButton.onclick = function()
           let getHeight = getSettings["height"];
 
            // Apply  webcam width and height to the page
-          console.log("Width: " + getWidth + " Heignt: " + getHeight + ".")
+          // console.log("Width: " + getWidth + " Heignt: " + getHeight + ".")
           videoStream.style.display = "block";
           videoStream.style.width = getWidth + "px";
           videoStream.style.height = getHeight + "px";
@@ -52,65 +52,9 @@ proceeedButton.onclick = function()
           document.getElementById("desc-2").style.display="none";
           document.getElementById("proceed").style.display="none";
 
-           // Create new button if it dpesn't exists
-          if(!document.getElementById("back"))
-          {
-            newButton  = document.createElement("button");
-            const contentElement = document.createTextNode("Back");
-
-            // Attribute settings
-             // Source: https://bobbyhadz.com/blog/javascript-create-element-with-attributes
-            newButton.classList.add("btn", "btn-outline-light");
-            newButton.setAttribute("id", "back");
-            newButton.setAttribute("type", "button");
-            newButton.setAttribute("data-bs-toggle", "tooltip");
-            newButton.setAttribute("data-bs-placement", "top");
-            newButton.setAttribute("data-bs-custom-class", "custom-tooltip");
-            newButton.setAttribute("data-bs-title", "Turn off the camera and return to the homepage.");
-
-            // Stylize button
-            // Source https://www.w3schools.com/js/js_htmldom_css.asp
-            newButton.style.display="block";
-            newButton.style.textAlign="center";
-            newButton.style.width="10em";
-            newButton.style.marginLeft="auto";
-            newButton.style.marginRight="auto";
-            newButton.style.marginTop="7em";
-
-            // Add the element to the body and add text to it
-            document.body.appendChild(newButton);
-            document.getElementById("back").innerHTML = "Back";
-
-          }
-          else
-          {
-            // If the back button exists, then make it visible
-            document.getElementById("back").style.display="block";
-          }
-
-          // Get the back element
+          // Get the back element and display it
           const backButton = document.getElementById("back");
-          backButton.onclick = function()
-          {
-            backButton.display = "none";
-
-            // Show default elements
-            document.getElementById("desc-1").style.display="block";
-            document.getElementById("desc-2").style.display="block";
-            document.getElementById("proceed").style.display="block";
-            document.getElementById("desc-1").style.animation = "movedesc1-return 0.5s ease forwards"
-            document.getElementById("desc-2").style.animation = "movedesc2-return 0.5s ease forwards"
-            document.getElementById("proceed").style.animation = "moveButton-return 0.5s ease forwards"
-            videoStream.style.display="none";
-            backButton.style.display="none";
-
-            // Turn off camera
-            // Source https://stackoverflow.com/questions/11642926/stop-close-webcam-stream-which-is-opened-by-navigator-mediadevices-getusermedia
-            stream.getTracks().forEach(function(track) 
-            {
-              track.stop();
-            });
-          }
+          backButton.style.display="block";
         })
       .catch(function(err0r)
         {
