@@ -23,6 +23,10 @@
   <footer>
     {% block footer%} {% endblock %}
   </footer>
+  <!--Use ajax to call ML algorithms for video analysis-->
+  <!--Source: https://stackoverflow.com/questions/21566649/flask-button-run-python-without-refreshing-page-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
   <script src="/static/scripts.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -34,9 +38,6 @@
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
   </script>
-  <!--Use ajax to call ML algorithms for video analysis-->
-  <!--Source: https://stackoverflow.com/questions/21566649/flask-button-run-python-without-refreshing-page-->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script type=text/javascript>
         $(function() {
           $('#proceed').on('click', function(e) {
