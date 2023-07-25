@@ -1,22 +1,43 @@
 """Import All.""" 
-import asyncio 
-import json 
-from aiohttp import web 
-from aiortc import MediaStreamTrack, RTCPeerConnection, RTCSessionDescription 
+import asyncio
+import secrets
+import uuid
+import asyncio
+
+import aiortc as aio
 from flask import Flask,render_template 
-from aiortc.contrib.media import MediaBlackhole, MediaPlayer, MediaRecorder, MediaRelay
-from av import VideoFrame
+from flask_cors import CORS
 from ultralytics import YOLO
 import cv2
 import numpy
+from helpers import VideoManager
 
-RELAY = MediaRelay() 
 app = Flask(__name__)
+cors(app)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
+pcs = set()
+dcs = set()
+
+event_loop = asyncio.new_event_loop()
+asyncio.set_event_loop(event_loop)
+
+# On start load index.htnl
 @app.route("/", methods = ["POST", "GET"])
 def index():
     """Load the Index webpage."""
-    return render_template("index.html") 
+    return render_template("index.html")
+
+# Offer
+@app.route("/offer", methods=["POST"])
+def offer():
+    params = request.json
+    setOffer = aio.RTCSessionDescription(sdp=params["sdp"], type=params["type"])
+
+    pc = aio.RTCPeerConnection()
+    pc_id = "PeerConnections(%s)" % uuid.uuid4()
+    pcs.add(pc)
+
 
 # Use webrtc, source: https://www.youtube.com/watch?v=VbbDzx3jCoE
 @app.route("/run_analysis")

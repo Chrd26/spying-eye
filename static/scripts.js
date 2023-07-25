@@ -6,8 +6,100 @@ const videoStream = document.getElementById("cameraVideo");
 // Try to get stream and display it on the page.
 // Source: https://webrtc.org/getting-started/media-devices#using-promises
 // Get camera Source width and height https://stackoverflow.com/questions/47593336/how-can-i-detect-width-and-height-of-the-webcamera
+
+// Peer Connection
+let pc = null;
+
+// Data channel, data channel internal
+let dataChannel = null, dcInternal = null;
+
+// Let's create peer connection
+function createPeerConnection(){
+
+  let config = {sdpSemantics: "unified-plan"};
+  config.iceServers = [{urls: ['stun:stun.l.google.com:19302']}];
+
+  pc = new RTCPeerConnection(config);
+
+    // Log the changes on ice gathering state change, ice connection state change and signal state change
+  pc.addEventListener('icegatheringstatechange', function(){
+    console.log(' -> ' + pc.iceGatheringState);
+  }, false);
+
+  pc.addEventListener('iceconnectionstatechange', function() {
+      console.log(' -> ' + pc.iceConnectionState);
+  }, false);
+
+  pc.addEventListener('signalingstatechange', function() {
+      console.log(' -> ' + pc.signalingState);
+  }, false);
+
+  // Play video
+  pc.addEventListener("track", function(evt){
+    videoStream.srcObject = evt.streams[0];
+  });
+
+  return pc;
+}
+
+// Negotiate between server and client
+function negotiate(){
+  return pc.createOffer().then(function(offer){
+    return pc.setLocalDescription(offer);
+  }).then(function(){
+    // Wait for ICE to gather data
+    return new Promise (function(resolve){
+      if (pc.iceGatheringState === "complete"){
+        resolve();
+      }else{
+        function checkState(){
+          if (pc.iceGatheringState === "complete"){
+            pc.removeEventListener("icegatheringstatechange", checkState);
+            resolve();
+          }
+        }
+        pc.addEventListener("icegatheringstatechange", checkState);
+      }
+    });
+  }).then(function(){
+    var offer = pc.localDescription;
+
+    return fetch("/offer", {
+      body: JSON.stringifiy({
+        sdp: offer.sdp,
+        type: offer.type,
+      }),
+      headers:{
+        "content-type": "application/json"
+      },
+      method:"POST"
+    });
+  }).then(function(response){
+    return response.json();
+  }).then(function(answer){
+    return pc.setRemoteDescription(answer);
+  }).catch(function(e){
+    alert(e);
+  });
+}
+
 async function streamMain()
 {
+  
+  pc = createPeerConnection();
+
+  let time_start = null;
+
+  // get current time stamp
+  function current_stamp(){
+    if (time_start === null){
+      time_start = new Date().getTime();
+      return 0;
+    }else{
+      return new Date().getTime() - time_start; 
+    }
+  }
+
   try{
     // Set Camera settings to start streaming
     const constraints = {"video": true, "audio": false};
@@ -17,55 +109,12 @@ async function streamMain()
     videoStream.style.display = "block";
     videoStream.style.width = trackSettings["width"] + "px";
     videoStream.style.height = trackSettings["height"] + "px";
-    //videoElement.srcObject = stream;
 
-    // Create new peer connection
-    // and add a turn server, NOTE: Only one is needed, adding more will produce errors.
-    // Source: https://webrtc.org/getting-started/turn-server
-    // Open relay was used to handle turn server source: https://www.metered.ca/tools/openrelay/
-    const myPeerConnection = new RTCPeerConnection({
-      iceServers: [
-        {
-          urls: "stun:stun.relay.metered.ca:80",
-        },
-        {
-          urls: "turn:a.relay.metered.ca:80",
-          username: "7b2b7284aa3b67f5dbcb3a75",
-          credential: "TdIzFE2tx8kUGA13",
-        }
-    ],
-  });
-
-    // Send track to backend
-    stream.getTracks().forEach(track => 
-      {
-        myPeerConnection.addTrack(track, stream);
-        // console.log(stream);
-      })
-
-    // Get Offer
-    const offer = await myPeerConnection.createOffer;
-    await myPeerConnection.setLocalDescription(offer);
-
-    const response = await fetch("/offer", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({
-        sdp: myPeerConnection.localDescription.sdp,
-        type: myPeerConnection.localDescription.type
-      })
+    stream.getTracks().forEach(function(track){
+      pc.addTrack(track, stream);
     });
 
-    // Get Response
-    const answer = await response.json();
-    await myPeerConnection.setRemoteDescription(answer)
-
-    // Receive track from backend
-    myPeerConnection.addEventListener("track", async function(evt){
-      videoStream.srcObject = evt.streams[0]
-    })
+    return negotiate();
   }
   catch(error){
     console.error("Error opening camera", error);
