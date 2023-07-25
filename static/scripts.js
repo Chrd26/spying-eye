@@ -21,7 +21,8 @@ async function streamMain()
 
     // Create new peer connection
     // and add a turn server, NOTE: Only one is needed, adding more will produce errors.
-    
+    // Source: https://webrtc.org/getting-started/turn-server
+    // Open relay was used to handle turn server source: https://www.metered.ca/tools/openrelay/
     const myPeerConnection = new RTCPeerConnection({
       iceServers: [
         {
@@ -35,13 +36,31 @@ async function streamMain()
     ],
   });
 
-
     // Send track to backend
     stream.getTracks().forEach(track => 
       {
         myPeerConnection.addTrack(track, stream);
         // console.log(stream);
       })
+
+    // Get Offer
+    const offer = await myPeerConnection.createOffer;
+    await myPeerConnection.setLocalDescription(offer);
+
+    const response = await fetch("/offer", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        sdp: myPeerConnection.localDescription.sdp,
+        type: myPeerConnection.localDescription.type
+      })
+    });
+
+    // Get Response
+    const answer = await response.json();
+    await myPeerConnection.setRemoteDescription(answer)
 
     // Receive track from backend
     myPeerConnection.addEventListener("track", async function(evt){
