@@ -1,13 +1,15 @@
 const proceeedButton = document.getElementById("proceed");
 const videoStream = document.getElementById("cameraVideo");
 
-
+// Set Up peer connection
+// Source for webrtc connection to python wtih aiortc: https://github.com/aiortc/aiortc/blob/main/examples/server/client.js
 // Try to get stream and display it on the page.
 // Source: https://webrtc.org/getting-started/media-devices#using-promises
 // Get camera Source width and height https://stackoverflow.com/questions/47593336/how-can-i-detect-width-and-height-of-the-webcamera
-async function playStream()
+async function streamMain()
 {
   try{
+    // Set Camera settings to start streaming
     const constraints = {"video": true, "audio": false};
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     const videoElement = document.querySelector("video#cameraVideo");
@@ -15,9 +17,36 @@ async function playStream()
     videoStream.style.display = "block";
     videoStream.style.width = trackSettings["width"] + "px";
     videoStream.style.height = trackSettings["height"] + "px";
-    videoElement.srcObject = stream;
+    //videoElement.srcObject = stream;
 
-    const connection = 
+    // Create new peer connection
+    // and add a turn server, NOTE: Only one is needed, adding more will produce errors.
+    
+    const myPeerConnection = new RTCPeerConnection({
+      iceServers: [
+        {
+          urls: "stun:stun.relay.metered.ca:80",
+        },
+        {
+          urls: "turn:a.relay.metered.ca:80",
+          username: "7b2b7284aa3b67f5dbcb3a75",
+          credential: "TdIzFE2tx8kUGA13",
+        }
+    ],
+  });
+
+
+    // Send track to backend
+    stream.getTracks().forEach(track => 
+      {
+        myPeerConnection.addTrack(track, stream);
+        // console.log(stream);
+      })
+
+    // Receive track from backend
+    myPeerConnection.addEventListener("track", async function(evt){
+      videoStream.srcObject = evt.streams[0]
+    })
   }
   catch(error){
     console.error("Error opening camera", error);
@@ -60,7 +89,6 @@ proceeedButton.onclick = function()
 
     isButtonPressed = false;
 
-    playStream();
-    
+    streamMain();
   })
 }
