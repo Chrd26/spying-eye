@@ -97,6 +97,22 @@ body
   margin-top: 7em;
 }
 
+footer
+{
+  display:block;
+  width:100vw;
+  text-align:center;
+  color:black;
+  position:absolute;
+  margin:auto;
+  bottom:0.5vh;
+}
+
+.bold
+{
+  font-weight:bold;
+}
+
 /*Responsive Design*/
 
 @media screen and (max-width:500px)

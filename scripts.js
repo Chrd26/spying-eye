@@ -1,14 +1,8 @@
 const proceeedButton = document.getElementById("proceed");
 const videoStream = document.getElementById("cameraVideo");
 
-// Set Up peer connection
-// Source for webrtc connection to python wtih aiortc: https://github.com/aiortc/aiortc/blob/main/examples/server/client.js
-// Try to get stream and display it on the page.
-// Source: https://webrtc.org/getting-started/media-devices#using-promises
-// Get camera Source width and height https://stackoverflow.com/questions/47593336/how-can-i-detect-width-and-height-of-the-webcamera
-
-// Data channel, data channel internal
-let dataChannel = null
+// Create PeerConnection, Neogtiate and Start the connection code. Based on the aiortc example
+// source: https://github.com/aiortc/aiortc/tree/main/examples/server
 // peer connection
 var pc = null;
 
@@ -20,8 +14,16 @@ function createPeerConnection() {
         sdpSemantics: 'unified-plan'
     };
 
-    config.iceServers = [{urls: ['stun:stun.l.google.com:19302']}];
-
+    config.iceServers = [{
+        urls: "stun:stun.relay.metered.ca:80",
+      },
+      {
+        urls: "turn:a.relay.metered.ca:80",
+        username: "7b2b7284aa3b67f5dbcb3a75",
+        credential: "TdIzFE2tx8kUGA13",
+      }
+    ]
+    
     pc = new RTCPeerConnection(config);
 
     // register some listeners to help debugging
@@ -39,10 +41,7 @@ function createPeerConnection() {
 
     // connect audio / video
     pc.addEventListener('track', function(evt) {
-        if (evt.track.kind == 'video')
-            document.getElementById('video').srcObject = evt.streams[0];
-        else
-            document.getElementById('audio').srcObject = evt.streams[0];
+        videoStream.srcObject = evt.streams[0];
     });
 
     return pc;
@@ -70,22 +69,11 @@ function negotiate() {
         var offer = pc.localDescription;
         var codec;
 
-        codec = document.getElementById('audio-codec').value;
-        if (codec !== 'default') {
-            offer.sdp = sdpFilterCodec('audio', codec, offer.sdp);
-        }
-
-        codec = document.getElementById('video-codec').value;
-        if (codec !== 'default') {
-            offer.sdp = sdpFilterCodec('video', codec, offer.sdp);
-        }
-
-        document.getElementById('offer-sdp').textContent = offer.sdp;
         return fetch('/offer', {
             body: JSON.stringify({
                 sdp: offer.sdp,
                 type: offer.type,
-                video_transform: document.getElementById('video-transform').value
+                video_transform:"none" 
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -95,7 +83,6 @@ function negotiate() {
     }).then(function(response) {
         return response.json();
     }).then(function(answer) {
-        document.getElementById('answer-sdp').textContent = answer.sdp;
         return pc.setRemoteDescription(answer);
     }).catch(function(e) {
         alert(e);
@@ -117,70 +104,22 @@ function start() {
         }
     }
 
-      var parameters = {ordered: true};
-
-      dc = pc.createDataChannel('chat', parameters);
-      dc.onclose = function() {
-          clearInterval(dcInterval);
-      };
-      dc.onopen = function() {
-          dcInterval = setInterval(function() {
-              var message = 'ping ' + current_stamp();
-              dc.send(message);
-          }, 1000);
-      };
-      dc.onmessage = function(evt) {
-
-          if (evt.data.substring(0, 4) === 'pong') {
-              var elapsed_ms = current_stamp() - parseInt(evt.data.substring(5), 10);
-          }
-      };
-
     var constraints = {
         audio: false,
         video: true
     };
-        navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-          stream.getTracks().forEach(function(track) {
-            const videoElement = document.querySelector("video#cameraVideo");
-            const trackSettings = stream.getTracks()[0].getSettings();
-            videoStream.style.display = "block";
-            videoStream.style.width = trackSettings["width"] + "px";
-            videoStream.style.height = trackSettings["height"] + "px";
+
+    navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+        stream.getTracks().forEach(function(track) {
             pc.addTrack(track, stream);
-
-            return negotiate();
-          });
-        }, function(err) {
-            alert('Could not acquire media: ' + err);
         });
-    }
-
-function stop() {
-    // close data channel
-    if (dc) {
-        dc.close();
-    }
-
-    // close transceivers
-    if (pc.getTransceivers) {
-        pc.getTransceivers().forEach(function(transceiver) {
-            if (transceiver.stop) {
-                transceiver.stop();
-            }
-        });
-    }
-
-    // close local audio / video
-    pc.getSenders().forEach(function(sender) {
-        sender.track.stop();
+        return negotiate();
+    }, function(err) {
+        alert('Could not acquire media: ' + err);
     });
 
-    // close peer connection
-    setTimeout(function() {
-        pc.close();
-    }, 500);
 }
+
 
 function sdpFilterCodec(kind, codec, realSdp) {
     var allowed = []
@@ -233,7 +172,7 @@ function sdpFilterCodec(kind, codec, realSdp) {
             }
         } else {
             sdp += lines[i] + '\n';
-        }
+    }
     }
 
     return sdp;
@@ -242,12 +181,7 @@ function sdpFilterCodec(kind, codec, realSdp) {
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
-
-window.onload = function()
-{
-  console.log("Hello World!");
-}
-// Run when the proceedButton is clicked
+    
 proceeedButton.onclick = function()
 {
   // Add animations and declare variables
@@ -272,14 +206,13 @@ proceeedButton.onclick = function()
     document.getElementById("desc-1").style.display="none";
     document.getElementById("desc-2").style.display="none";
     document.getElementById("proceed").style.display="none";
+    videoStream.style.display="block";
     
     // Get the back element and display it
     const backButton = document.getElementById("back");
     backButton.style.display="block";
 
     isButtonPressed = false;
-
-    //streamMain();
     start();
   })
 }
