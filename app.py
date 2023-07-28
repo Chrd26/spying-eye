@@ -15,6 +15,7 @@ from av import VideoFrame
 
 # Use aiohttp for WebRTC implementations, async stuff works better with it.
 # Source of Aiohttp: https://github.com/aio-libs/aiohttp
+# Source of the Client -> Server -> Camera -> 
 
 ROOT = os.path.dirname(__file__)
 
