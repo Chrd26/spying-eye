@@ -1,0 +1,7 @@
+Thi is the failed version of the app. I worked very hard on this but I was unable to complete and I had to start using other tools.
+
+Why  it failed?
+
+Getting the video from the browser, send it to the back end and then back to the browser is extremely slow and there might be a need of a 
+server with extreme capabilities to be able to achieve this. Running the recv() using asyncio makes it much faster but it is still very slow 
+for anything real time. To have great performance, it is recommended to use client side computation to analyse the image

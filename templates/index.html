@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!-- Header content-->
+<html lang="en">
+    <head>
+        <meta name="description">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="styles.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+              crossorigin="anonymous">
+        <meta name="keywords"
+              content="machine learning, object identification, cars, people, dogs, cats, busses, trucks, webcam, video, bike, motorbike, bicycle analysis">
+        <title>Home</title>
+    </head>
+    <body>
+        <header>
+            <h2 id="headline"
+                class="shadow-none p-3 mb-5 bg-body-tertiary rounded"
+                style="--bs-bg-opacity: 0.2">Spying Eye</h2>
+        </header>
+        <!-- Main body content-->
+        <main>
+            <h3 id="desc-1" class="p3 rounded-5">
+                This is a web app that identifies objects click <span class="bold">proceed</span> to turn on the device's camera.
+            </h3>
+            <h3 id="desc-2" class="p3 rounded-5">
+                The app will shows you the detected objects in bounding boxes. It can detect vehicles, cats, dogs, and people!
+            </h3>
+            <video id="cameraVideo" autoplay inline>
+            </video>
+            <button action="video-start"
+                    id="proceed"
+                    type="button"
+                    class="btn btn-outline-light"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip"
+                    data-bs-title="Proceed to open the camera to analyze the surroundings.">Proceed</button>
+            <form action="/" method="get">
+                <button action="go-back"
+                        id="back"
+                        type="submit"
+                        class="btn btn-outline-light"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        data-bs-custom-class="custom-tooltip"
+                        data-bs-title="Go Back to home.">Back</button>
+            </form>
+        </main>
+        <!--Page Footer-->
+        <footer>
+            <div>
+                <h5>
+                    Made by <span class="bold">The_Runner_01</span> as the <span class="bold">final project</span> for <span class="bold">CS50x</span>
+                </h5>
+            </div>
+        </footer>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+                integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+                integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+                crossorigin="anonymous"></script>
+        <script>
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        </script>
+        <script src="scripts.js"></script>
+    </body>
+</html>
