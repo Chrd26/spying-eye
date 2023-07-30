@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+<!-- Main body content-->
+{% block main %}
+<h3 id="desc-1" class="p3 rounded-5">
+    This is a web app that identifies objects click <span class="bold">proceed</span> to turn on the device's
+    camera.
+</h3>
+<h3 id="desc-2" class="p3 rounded-5">
+    The app will shows you the detected objects in bounding boxes. It can detect vehicles, cats, dogs, and
+    people!
+</h3>
+<video id="cameraVideo" autoplay inline>
+</video>
+<button action="video-start" id="proceed" type="button" class="btn btn-outline-light" data-bs-toggle="tooltip"
+    data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+    data-bs-title="Proceed to open the camera to analyze the surroundings.">Proceed</button>
+<form action="/" method="get">
+    <button action="go-back" id="back" type="submit" class="btn btn-outline-light" data-bs-toggle="tooltip"
+        data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Go Back to home.">Back</button>
+</form>
+{% endblock %}

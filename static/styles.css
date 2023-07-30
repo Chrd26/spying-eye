@@ -13,6 +13,62 @@ body
 	width:100vw;
 }
 
+#login{
+  margin:auto;
+  margin-top: 25vh;
+}
+
+
+#user, #password, #user-label, #password-label{
+  display: block;
+  width: 20vw;
+  margin: auto;
+  text-align: center;
+  padding-top: 0.5vw;
+}
+
+#user-label, #password-label{
+  margin-top: 1vw;
+  font-size: larger;
+  font-weight:bold;
+}
+
+#user, #password{
+  background: rgba(255, 255, 255, 0.5);
+}
+
+#submit{
+  display:block;
+  width:10vw;
+  margin:auto;
+  text-align:center;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+#submit-btn, #register-btn
+{
+  display: block;
+  width:5vw;
+  margin:auto;
+  margin-top: 1vw;
+  text-decoration: none;
+}
+
 #headline
 {
   position:fixed;
