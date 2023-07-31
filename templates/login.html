@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+<!-- Main body content-->
+{% block main %}
+    <form action="/login" method="post" id="login">
+        <label for="user" id="mail-label">Email</label>
+        <input type="mail"
+               placeholder="name@example.com"
+               name="mail"
+               id="mail"
+               class="form-control-md"
+               required>
+        <label for="password" id="password-label">Password</label>
+        <input type="password"
+               placeholder="Insert password"
+               name="password"
+               id="password"
+               class="form-control-md"
+               required>
+        <button type="submit" id="submit-btn" class="btn btn-primary">Log in</button>
+        <!--Call register page when button is pressed-->
+        <h4 id="or">OR</h4>
+        <a href="/register">
+            <button type="button" id="register-btn" class="btn btn-secondary">Register</button>
+        </a>
+    </form>
+    <h5 class="message">{{ success }}</h5>
+{% endblock %}

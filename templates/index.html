@@ -1,19 +1,1 @@
 {% extends "layout.html" %}
-{% block title %}Home{% endblock %}
-<!-- Main body content-->
-{% block main %}
-    <form action="/login" method="POST" id="login">
-        <label for="user" id="user-label">Username</label>
-        <input type="text" placeholder="Insert username" name="user" id="user">
-        <label for="password" id="password-label">Password</label>
-        <input type="text"
-               placeholder="Insert password"
-               name="password"
-               id="password">
-        <button type="submit" id="submit-btn">Log in</button>
-        <!--Call register page when button is pressed-->
-        <a href="/register">
-            <button type="button" id="register-btn">Register</button>
-        </a>
-    </form>
-{% endblock %}

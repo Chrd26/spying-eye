@@ -19,21 +19,22 @@ body
 }
 
 
-#user, #password, #user-label, #password-label{
+#mail, #password, #mail-label, #password-label{
   display: block;
-  width: 20vw;
+  width: 15vw;
   margin: auto;
   text-align: center;
   padding-top: 0.5vw;
 }
 
-#user-label, #password-label{
-  margin-top: 1vw;
+#mail-label, #password-label{
+  margin-top: 1vh;
+  margin-bottom: 1vh;
   font-size: larger;
   font-weight:bold;
 }
 
-#user, #password{
+#mail, #password{
   background: rgba(255, 255, 255, 0.5);
 }
 
@@ -44,29 +45,25 @@ body
   text-align:center;
 }
 
-a:link {
-  text-decoration: none;
-}
 
-a:visited {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-a:active {
-  text-decoration: none;
-}
-
-#submit-btn, #register-btn
-{
+#submit-btn, #register-btn{
   display: block;
-  width:5vw;
+  width:10vw;
   margin:auto;
-  margin-top: 1vw;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
   text-decoration: none;
+}
+
+#or{
+  text-align:center;
+}
+
+.message{
+  text-align: center;
+  margin-top: 5vh;
+}
+
 }
 
 #headline
