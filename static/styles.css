@@ -15,7 +15,7 @@ body
 
 #login{
   margin:auto;
-  margin-top: 25vh;
+  margin-top: 20vh;
 }
 
 
@@ -46,13 +46,17 @@ body
 }
 
 
-#submit-btn, #register-btn{
+#submit-btn, #register-btn, #logout-btn{
   display: block;
   width:10vw;
   margin:auto;
   margin-top: 2vh;
   margin-bottom: 2vh;
   text-decoration: none;
+}
+
+#submit-btn{
+  margin-top:5vh;
 }
 
 #or{
@@ -64,7 +68,6 @@ body
   margin-top: 5vh;
 }
 
-}
 
 #headline
 {

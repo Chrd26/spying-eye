@@ -2,7 +2,7 @@
 {% block title %}Home{% endblock %}
 <!-- Main body content-->
 {% block main %}
-    <form action="/login" method="post" id="login">
+    <form action="/" method="post" id="login">
         <label for="user" id="mail-label">Email</label>
         <input type="mail"
                placeholder="name@example.com"
@@ -24,5 +24,5 @@
             <button type="button" id="register-btn" class="btn btn-secondary">Register</button>
         </a>
     </form>
-    <h5 class="message">{{ success }}</h5>
+    <h5 class="message">{{ message }}</h5>
 {% endblock %}

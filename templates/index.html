@@ -1,1 +1,12 @@
 {% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block body %}
+    {% block main %}
+        <video id="videoCamera" camera>
+        </video>
+        <form action="/logout" method="post">
+            <button type="submit" class="btn btn-primary" id="logout-btn">Logout</button>
+        </form>
+    {% endblock %}
+    <script src="static/scripts.js"></script>
+{% endblock %}
