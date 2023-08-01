@@ -1,0 +1,18 @@
+{% extends "layout.html"%}
+{% block title %}
+Start Detecting
+{% endblock %}
+
+{% block body%}
+{% block main %}
+<div class="buttons">
+  <button type="button" class="btn btn-primary" id="start-detection">Start Detection</button>
+  <form action="/logout" method="post">
+    <button type="submit" class="btn btn-primary" id="logout-btn">Logout</button>
+  </form>
+  <form action="/history" method="get">
+    <button type="submit" class="btn btn-primary" id="visit-history">History</button>
+  </form>
+</div>
+{% endblock%}
+{% endblock %}
