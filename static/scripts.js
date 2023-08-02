@@ -19,7 +19,7 @@ let startDetectionBtn = document.getElementById("start-detection");
   function setup(){
     // Create Canvas in certain position:
     // source: https://github.com/processing/p5.js/wiki/Positioning-your-canvas
-    cnv = createCanvas(640,480);
+    let cnv = createCanvas(640,480);
     cnv.style("display", "block");
     cnv.style("margin", "auto");
     cnv.style("margin-top", "10vh");
