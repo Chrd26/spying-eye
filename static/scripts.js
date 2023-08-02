@@ -17,12 +17,13 @@ let startDetectionBtn = document.getElementById("start-detection");
   }
 
   function setup(){
-    // Create Canvas in certain position:
+    // Create Canvas in certain position, and add it as a child to a div element
     // source: https://github.com/processing/p5.js/wiki/Positioning-your-canvas
     let cnv = createCanvas(640,480);
+    cnv.parent("sketch-element");
     cnv.style("display", "block");
     cnv.style("margin", "auto");
-    cnv.style("margin-top", "10vh");
+    cnv.style("margin-top", "2vh");
 
     background(220)
     detector = ml5.objectDetector("cocossd");
@@ -38,7 +39,8 @@ let startDetectionBtn = document.getElementById("start-detection");
 
     for (let i = 0; i < detections.length; i++){
       let object = detections[i];
-
+      
+      console.log(object.label);
       // Create Bounding Boxes
       stroke(0, 255, 0);
       strokeWeight(4);

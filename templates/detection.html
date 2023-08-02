@@ -7,19 +7,22 @@
             style="--bs-bg-opacity: 0.2">Spying Eye</h2>
     </header>
     <main>
-        <div class="buttons">
-            <form action="/index" method="get">
-                <span class="desc">Go back to the previous page.</span>
-                <button type="submit" class="btn btn-primary" id="start-detection">Back</button>
-            </form>
-            <form action="/logout" method="post">
-                <span class="desc">Log out of the application.</span>
-                <button type="submit" class="btn btn-primary" id="logout-btn">Logout</button>
-            </form>
-            <form action="/history" method="get">
-                <span class="desc">Get the history of detections.</span>
-                <button type="submit" class="btn btn-primary" id="visit-history">History</button>
-            </form>
+        <div id="section-holder-detections">
+            <div id="sketch-element"></div>
+            <div class="buttons-detections">
+                <form action="/index" method="get">
+                    <span class="desc">Go back to the previous page.</span>
+                    <button type="submit" class="btn btn-primary" id="start-detection">Back</button>
+                </form>
+                <form action="/logout" method="post">
+                    <span class="desc">Log out of the application.</span>
+                    <button type="submit" class="btn btn-primary" id="logout-btn">Logout</button>
+                </form>
+                <form action="/history" method="get">
+                    <span class="desc">Get the history of detections.</span>
+                    <button type="submit" class="btn btn-primary" id="visit-history">History</button>
+                </form>
+            </div>
         </div>
     </main>
     <footer>

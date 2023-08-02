@@ -2,32 +2,38 @@
 {% block title %}Home{% endblock %}
 <!-- Main body content-->
 {% block main %}
-    <form action="/register" method="post" id="login">
-        <label for="user" id="mail-label">Email</label>
-        <input type="mail"
-               placeholder="name@example.com"
-               name="mail"
-               id="mail"
-               class="form-control-md"
-               required>
-        <label for="password" id="password-label">Password</label>
-        <input type="password"
-               placeholder="Insert password"
-               name="password"
-               id="password"
-               class="form-control-md"
-               required>
-	<input type="password"
-		placeholder="Confirm password"
-		mame="confirmation" 
-		id="confirmation" 
-		class="form-control-md" required>
-        <button type="submit"
-                id="submit-btn"
-                class="btn btn-primary"
-                pattern=".{8}"
-                title="Use 8 or more characters">Register</button>
-        <!--Call register page when button is pressed-->
-    </form>
+    <div id="section-holder" style="background-color:rgba(255, 255, 255, 0.6)">
+        <form action="/register" method="post" id="login">
+            <label for="user" id="mail-label">Email</label>
+            <input type="mail"
+                   placeholder="name@example.com"
+                   name="mail"
+                   id="mail"
+                   class="form-control-md"
+                   required>
+            <label for="password" id="password-label">Password</label>
+            <input type="password"
+                   placeholder="Insert password"
+                   name="password"
+                   id="password"
+                   class="form-control-md"
+                   required>
+            <input type="password"
+                   placeholder="Confirm password"
+                   mame="confirmation"
+                   id="confirmation"
+                   class="form-control-md"
+                   required>
+            <button type="submit"
+                    id="submit-btn"
+                    class="btn btn-primary"
+                    pattern=".{8}"
+                    title="Use 8 or more characters">Register</button>
+            <!--Call register page when button is pressed-->
+        </form>
+        <form action="/" method="get">
+            <button type="submit" id="to-login" class="btn btn-secondary">Back</button>
+        </form>
+    </div>
     <h5 class="message">{{ message }}</h5>
 {% endblock %}

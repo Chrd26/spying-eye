@@ -1,47 +1,11 @@
 """Import Flask."""
 import sqlite3
-from flask import Flask, render_template, session, request, redirect
+from flask import Flask, render_template, session, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
-import flask_login
 
 # app
 app = Flask(__name__)
-app.secret_key = "gatherthosewhoareweek!"
-
-# login manager
-login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
-users = {"email": "none", "password": "none"}
-
-# Create a User object to handle session
-# source: https://pypi.org/project/Flask-Login/
-class User(flask_login.UserMixin):
-    """Handle User Login."""
-    pass
-
-
-    @login_manager.user_loader
-    def user_loader(email):
-        """Load user."""
-        if email not in users:
-            return
-
-        user = User()
-        user.id = email
-        return user
-
-
-    @login_manager.request_loader
-    def request_loader(request):
-        """Handle Requests."""
-        email = request.form.get('email')
-        if email not in users:
-            return
-
-        user = User()
-        user.id = email
-        return user
-
+app.secret_key = "gatherthosewhoareweak!"
 
 # Login Page
 @app.route("/", methods=["GET", "POST"])
@@ -50,6 +14,7 @@ def login():
     if request.method == "POST":
         # connect to db
         con = sqlite3.connect("database.db")
+        con.row_factory = sqlite3.Row
         db_run = con.cursor()
 
         # Get Info
@@ -64,6 +29,7 @@ def login():
         try:
             db_password = str(get_password.fetchone()[0])
         except db_password:
+            con.close()
             return render_template("login.html", message = "User not found")
 
         # print(db_password)
@@ -73,17 +39,9 @@ def login():
         # Source : https://werkzeug.palletsprojects.com/en/2.3.x/utils/
         # and https://pydoc.dev/werkzeug/latest/werkzeug.security.html#check_password_hash
         if check_password_hash(db_password, str(password)):
-
-            # get user
-            # source: https://pypi.org/project/Flask-Login/
-            users["email"] = mail
-            users["password"] = password
-            user = User()
-            user.id = mail
-            flask_login.login_user(user)
-
             return render_template("index.html")
 
+        con.close()
         # Go back to login page and print out wrong credentials to the user
         return render_template("login.html", message = "Wrong credentials!")
     return render_template("login.html")
@@ -129,13 +87,12 @@ def register():
 
         # If mail exists in the database, render register.html again
         # and display a failed message
-        return render_template("register.html", message = "The mail has been already registered.")
+        return render_template("register.html", message = "Email already exists.")
         # Check if user contains special characters
     return render_template("register.html")
 
 # Load Index
 @app.route("/index", methods=["GET", "POST"])
-@flask_login.login_required
 def index():
     """Load Index."""
     return render_template("index.html")
@@ -149,14 +106,7 @@ def start():
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
     """Log out user."""
-    flask_login.logout_user()
     return render_template("login.html", message = "You have logged out.")
 
-@login_manager.unauthorized_handler
-def unauthorized_handler():
-    """Handle Unauthorized access."""
-    return 'Unauthorized', 401
-
-
 if __name__ == "__main__":
-    app.run()
+    app.run(debug = True)

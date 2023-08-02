@@ -19,12 +19,13 @@ body
 }
 
 
-#mail, #password, #mail-label, #password-label{
+#mail, #password, #mail-label, #password-label, #confirmation{
   display: block;
   width: 15vw;
   margin: auto;
   text-align: center;
   padding-top: 0.5vw;
+  margin-bottom:1vw;
 }
 
 #mail-label, #password-label{
@@ -34,7 +35,7 @@ body
   font-weight:bold;
 }
 
-#mail, #password{
+#mail, #password, #confirmation{
   background: rgba(255, 255, 255, 0.5);
 }
 
@@ -45,13 +46,37 @@ body
   text-align:center;
 }
 
-#submit-btn, #register-btn{
+#submit-btn, #register-btn, #to-login{
   display: block;
   width:10vw;
   margin:auto;
   margin-top: 2vh;
   margin-bottom: 2vh;
   text-decoration: none;
+}
+
+#section-holder{
+  background: rgba(255, 255, 255, 0.2);
+  width: 95vw;
+  border: solid;
+  margin: auto;
+  margin-top: auto;
+  padding: 0;
+  padding-bottom: 0px;
+  margin-top: 12vh;
+  padding-bottom: 16vh;
+}
+
+#section-holder-detections{
+  background: rgba(255, 255, 255, 0.2);
+  width: 95vw;
+  border: solid;
+  margin: auto;
+  margin-top: auto;
+  padding: 0;
+  padding-bottom: 0px;
+  margin-top: 12vh;
+  padding-bottom: 9vh;
 }
 
 .buttons{
@@ -61,7 +86,20 @@ body
   justify-items: center;
   margin: auto;
   width: 80vw;
-  margin-top: 15vh;
+  margin-top: 5vh;
+  margin-bottom: 10.7vh;
+  padding-top: 5vh;
+}
+
+.buttons-detections{
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  margin: auto;
+  width: 80vw;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
 }
 
 .buttons > form > button{
@@ -71,7 +109,7 @@ body
   max-height: 5vh;;
 }
 
-.buttons > form{
+.buttons > form, .buttons-detections > form{
   display:grid;
   grid-auto-flow: row;
   grid-template-rows:repeat(2, 1fr);
@@ -86,6 +124,7 @@ body
   width: 50vw;
   display: block;
 }
+
 .desc{
   font-size:24px;
   font-weight:bold;
@@ -101,9 +140,12 @@ body
 
 .message{
   text-align: center;
-  margin-top: 5vh;
+  margin-top: 7vh;
+  position: absolute;
+  top: 70vh;
+  left: 0;
+  right: 0;
 }
-
 
 #headline
 {
@@ -114,37 +156,6 @@ body
   text-align:center;
 }
 
-#desc-1
-{
-  padding:2rem;
-  margin-top:7rem;
-  position:absolute;
-  width:30rem;
-  left:10vw;
-  z-index: 0;
-}
-
-#desc-1:hover
-{
-  background: rgba(255, 255, 255, 0.2);
-}
-
-
-#desc-2
-{
-  margin-top:7rem;
-  padding:2rem;
-  position:absolute;
-  width:35rem;
-  right:10vw;
-  top:26vh;
-  z-index: 0;
-}
-
-#desc-2:hover
-{
-  background: rgba(255, 255, 255, 0.2);
-}
 
 #headline
 {
