@@ -7,12 +7,11 @@
             style="--bs-bg-opacity: 0.2">Spying Eye</h2>
     </header>
     <main>
-        <span class="welcome">Hello!</span>
-	<form action="/index" method="get">
-                <span class="desc">Go back to the previous page.</span>
-                <button type="button" class="btn btn-primary" id="start-detection">Back</button>
-            </form>
         <div class="buttons">
+            <form action="/index" method="get">
+                <span class="desc">Go back to the previous page.</span>
+                <button type="submit" class="btn btn-primary" id="start-detection">Back</button>
+            </form>
             <form action="/logout" method="post">
                 <span class="desc">Log out of the application.</span>
                 <button type="submit" class="btn btn-primary" id="logout-btn">Logout</button>
@@ -45,6 +44,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/addons/p5.sound.min.js"></script>
     <!--Import ml5js-->
     <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
-    <script src="scripts.js"></script>
+    <script src="static/scripts.js"></script>
 {% endblock %}
-

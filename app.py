@@ -102,10 +102,16 @@ def register():
         con = sqlite3.connect("database.db")
         db_run = con.cursor()
 
-        # Get mail, hashed password and check if mail already exists
+        # Get mail, hashed password, confirmation and check if mail already exists
         # source: https://pydoc.dev/werkzeug/latest/werkzeug.security.html#check_password_hash
         # and https://werkzeug.palletsprojects.com/en/2.3.x/utils/
         mail = request.form["mail"]
+        confirmation = request.form["confirmation"]
+        password_input = request.form["password"]
+
+        if confirmation != password_input:
+            return render_template("register.html", message="Passwor and confirmatiomn fields must be the same")
+
         password = generate_password_hash(request.form["password"], "scrypt")
         get_mail = db_run.execute("SELECT mail FROM users WHERE mail=mail")
         print(get_mail.fetchone())
@@ -133,6 +139,12 @@ def register():
 def index():
     """Load Index."""
     return render_template("index.html")
+
+# load detection
+@app.route("/start", methods=["GET", "POST"])
+def start():
+    """Start detecting objects."""
+    return render_template("detection.html")
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():

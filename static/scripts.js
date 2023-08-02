@@ -17,8 +17,17 @@ let startDetectionBtn = document.getElementById("start-detection");
   }
 
   function setup(){
+    // Create Canvas in certain position:
+    // source: https://github.com/processing/p5.js/wiki/Positioning-your-canvas
+    cnv = createCanvas(640,480);
+    cnv.style("display", "block");
+    cnv.style("margin", "auto");
+    cnv.style("margin-top", "10vh");
+
+    background(220)
     detector = ml5.objectDetector("cocossd");
     video = createCapture(video);
+    video.hide()
     video.size(640, 480);
     detector.detect(video, gotDetections);
   }
