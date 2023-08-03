@@ -2,16 +2,24 @@ let video;
 let detector;
 let detections = [];
 let startDetectionBtn = document.getElementById("start-detection");
+let curr_detections = 0;
 
-
-  console.log("start detection");
-
+  // Get results for detections
   function gotDetections(error, results){
     if (error){
       console.log(error);
     }else{
       console.log(results);
       detections = results;
+      // Are the results empty?
+      if (Object.keys(detections) == 0){
+        curr_detections = 0;
+        // If they are empty, then if the keys are more than the current detections
+        // Increase them
+       // Send a json file with timestamp, and the detection. 
+      } else if (Object.keys(detections) > curr_detections){
+          curr_detections++;
+        }
       detector.detect(video, gotDetections);
     }
   }
