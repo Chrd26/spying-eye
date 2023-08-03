@@ -1,71 +1,72 @@
 """Import Flask."""
-from os import getenv
-from json import load
-from typing import Dict, Optional
 import sqlite3
 from flask import Flask, render_template, session, request, redirect, url_for, session
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, current_user, logout_user
+from werkzeug.security import generate_password_hash, check_password_hash 
+import flask_login
 
-# app config and global variables
+# app
 app = Flask(__name__)
-app.config["SECRET_KEY"] = getenv("SECRET_KEY", default="seewhoistheboss!")
-l_manager = LoginManager(app)
-users: Dict[str, "User"] = {}
+app.secret_key = "gatherthosewhoareweak!"
+login_manager = flask_login.LoginManager()
+login_manager.init_app(app)
 
-# Custom row factory
-# source: https://docs.python.org/3/library/sqlite3.html#sqlite3-howto-row-factory
 def dict_factory(cursor, row):
     """Get row factory and return dict with keys and values."""
     fields = [column[0] for column in cursor.description]
     return dict(zip(fields, row))
 
+class User(flask_login.UserMixin):
+    """Handle session."""
 
-class User(UserMixin):
-    """User object. Session and login implementation by leynier"""
-    # Source: https://github.com/leynier/flask-login-without-orm/blob/main/flask_login_without_orm/main.py#L41C1-L41C1
+    @login_manager.user_loader
+    def user_loader(email):
+        """Load user."""
+        db = sqlite3.connect("database.db")
+        db.row_factory = dict_factory
+        users = db.execute("SELECT * FROM users")
+        users = users.fetchall()
 
-    def __init__(self, id:str, email:str, password:str):
-        """Initialize"""
-        self.id = id
-        self.email = email
-        self.password = password
+        # Enumerate users
+        # It is considered a good practice to 
+        # enumerate through a list
+        # instead of using a for loop
+        # Source: https://www.geeksforgeeks.org/enumerate-in-python/
+        for elem in enumerate(users):
+            if elem[1]["mail"] == email:
+                user = User()
+                user.id = email
+                db.close
+                return user
 
-    # What is the -> operator?
-    # This is a function notation, it is used for documentation,
-    # tell the IDE what data type it should return, it implements type checking
-    # Source: https://peps.python.org/pep-0362/ and https://stackoverflow.com/questions/14379753/what-does-mean-in-python-function-definitions
-    @staticmethod
-    def get(user_id: str) -> Optional["User"]:
-        """Get User id."""
-        return users.get(user_id)
+        # return
+        # login page with message
+        db.close()
+        return render_template("login.html", message = "Email not found")
 
-    def __str__(self) -> str:
-        """Return a string with id and email."""
-        return f"id: {self.id}, email: {self.email}"
+    @login_manager.request_loader
+    def request_loader(request):
+        """Request Loader."""
+        if request.method == "POST":
+            email = request.form.get("mail")
+            db = sqlite3.connect("database.db")
+            db.row_factory = dict_factory
+            users = db.execute("SELECT * FROM users")
+            users = users.fetchall()
 
-    def __repr__(self) -> str:
-        """Return object."""
-        return self.__str__()
+            # Enumerate users
+            for elem in enumerate(users):
+                if elem[1]["mail"] == email:
+                    user = User()
+                    user.id = email
+                    db.close
+                    return user
+        
+            # if email not found, then return nothing
+            # login page with message
+            db.close()
+            return render_template("login.html", message = "Email not found")
 
 
-with open("users.json") as file:
-    data = load(file)
-
-    # Iterate through the json file
-    # grab id. email and password
-    # asign to users[key] a User() object
-    for key in data:
-        users[key] = User(
-            id = key,
-            email = data[key]["email"],
-            password = data[key]["password"]
-        )
-
-@l_manager.user_loader
-def load_user(user_id:str) -> Optional[User]:
-    """Load user."""
-    return User.get(user_id)
 
 # Login Page
 @app.route("/", methods=["GET", "POST"])
@@ -97,14 +98,11 @@ def login():
         # Source : https://werkzeug.palletsprojects.com/en/2.3.x/utils/
         # and https://pydoc.dev/werkzeug/latest/werkzeug.security.html#check_password_hash
         if check_password_hash(db_password, str(password)):
-            db.row_factory = dict_factory
-            users = db.execute("SELECT * FROM users")
-            users = users.fetchall()
-            if mail in users[0]["mail"]:
-                print("found!")
-            print(users)
+            user = User()
+            user.id = mail
+            flask_login.login_user(user)
             db.close()
-            return render_template("index.html")
+            return redirect(url_for("index")) 
 
         db.close()
         # Go back to login page and print out wrong credentials to the user
@@ -132,7 +130,7 @@ def register():
         password_input = request.form["password"]
 
         if confirmation != password_input:
-            return render_template("register.html", message="Passwor and confirmatiomn fields must be the same")
+            return render_template("register.html", message="Password and confirmation fields must be the same")
 
         password = generate_password_hash(request.form["password"], "scrypt")
         get_mail = db.execute("SELECT mail FROM users WHERE mail=mail")
@@ -157,12 +155,14 @@ def register():
 
 # Load Index
 @app.route("/index", methods=["GET", "POST"])
+@flask_login.login_required
 def index():
     """Load Index."""
     return render_template("index.html")
 
 # load detection
 @app.route("/start", methods=["GET", "POST"])
+@flask_login.login_required
 def start():
     """Start detecting objects."""
     return render_template("detection.html")
@@ -170,7 +170,13 @@ def start():
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
     """Log out user."""
+    flask_login.logout_user()
     return render_template("login.html", message = "You have logged out.")
+
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    """Handle anauthorized tries."""
+    return redirect(url_for("login")) 
 
 if __name__ == "__main__":
     app.run(debug = True)
