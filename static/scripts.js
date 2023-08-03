@@ -27,7 +27,7 @@ let startDetectionBtn = document.getElementById("start-detection");
 
     background(220)
     detector = ml5.objectDetector("cocossd");
-    video = createCapture(video);
+    video = createCapture(VIDEO);
     video.hide()
     video.size(640, 480);
     detector.detect(video, gotDetections);

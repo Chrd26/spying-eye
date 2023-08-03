@@ -7,6 +7,9 @@ import flask_login
 # app
 app = Flask(__name__)
 app.secret_key = "gatherthosewhoareweak!"
+
+# Run flask app with debug on, Source: https://www.askpython.com/python-modules/flask/flask-debug-mode
+app.debug = True
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
@@ -176,7 +179,7 @@ def logout():
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     """Handle anauthorized tries."""
-    return redirect(url_for("login")) 
+    return render_template("login.html", message="You need to login first.")
 
 if __name__ == "__main__":
     app.run(debug = True)
