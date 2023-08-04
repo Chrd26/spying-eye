@@ -4,7 +4,9 @@ let detections = [];
 let startDetectionBtn = document.getElementById("start-detection");
 let curr_detections = 0;
 
-async function sendJson(object, timestamp){
+// Send json to the server
+// Source: https://stackoverflow.com/questions/26079754/flask-how-to-return-a-success-status-code-for-ajax-call
+function sendJson(object, timestamp){
   $.ajax({
     type: "POST",
     contentType: "application/json;",
@@ -43,9 +45,10 @@ async function sendJson(object, timestamp){
   }
 
   function draw(){
-    // Get date and local time
-    // Source: https://javascript.info/date
-    let now = new Date()
+    // Get date and local time using JSJoda
+    // Js Joda is a simple library which is used to handle time and dates.
+    // 
+    let now = JSJoda.ZonedDateTime.now() 
     console.log(now)
     console.log(detections.length)
     console.log(curr_detections)
