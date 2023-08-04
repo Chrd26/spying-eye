@@ -168,6 +168,9 @@ def index():
 @flask_login.login_required
 def start():
     """Start detecting objects."""
+    if request.method == "POST":
+        data = request.get_json()
+        print(data)
     return render_template("detection.html")
 
 @app.route('/logout', methods=["GET", "POST"])
@@ -175,6 +178,12 @@ def logout():
     """Log out user."""
     flask_login.logout_user()
     return render_template("login.html", message = "You have logged out.")
+
+@app.route("/stats", methods=["POST"])
+def stats():
+    receive = request.get_json()
+    print(receive)
+    return 
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
