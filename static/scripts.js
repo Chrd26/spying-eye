@@ -6,11 +6,11 @@ let curr_detections = 0;
 
 // Send json to the server
 // Source: https://stackoverflow.com/questions/26079754/flask-how-to-return-a-success-status-code-for-ajax-call
-function sendJson(object, timestamp){
+function sendJson(object, date, time){
   $.ajax({
     type: "POST",
     contentType: "application/json;",
-    data: JSON.stringify({"object": object, "timestamp": timestamp}),
+    data: JSON.stringify({"object": object, "date": date, "time": time}),
     dataType: "json",
     url: "/start",
   })
@@ -47,12 +47,29 @@ function sendJson(object, timestamp){
   function draw(){
     // Get date and local time using JSJoda
     // Js Joda is a simple library which is used to handle time and dates.
-    // 
-    let now = JSJoda.ZonedDateTime.now() 
-    console.log(now)
-    console.log(detections.length)
-    console.log(curr_detections)
-    console.log(detections.length > curr_detections)
+    let getDateTime = JSJoda.ZonedDateTime.now() 
+
+    let getData;
+
+    // Get the hours, minutes and seconds by concatenation
+    let getTime = getDateTime["_dateTime"]["_time"]["_hour"].toString() + ":"  
+                  + getDateTime["_dateTime"]["_time"]["_minute"].toString() + ":" 
+                  + getDateTime["_dateTime"]["_time"]["_second"].toString();
+
+    let getDate = getDateTime["_dateTime"]["_date"]["_year"] + "."
+                  + getDateTime["_dateTime"]["_date"]["_month"] + "."
+                  + getDateTime["_dateTime"]["_date"]["_day"];
+
+    // Get only the label value by using the map method
+    // Wnen we want to return an object with multiple values, we must 
+    // make sure that the object is in parentheses
+    // return ({key1: "value1", key2: "value2"})
+    getData = detections.map(detection => ({label:detection["label"],confidence:detection["confidence"]}));
+    // console.log(getDateTime);
+    // console.log("Time: " + getTime);
+    // console.log("getDate: " + getDate);
+    //console.log(getData);
+    
 
     // Handle detections to send them to the server
     // When there is not anything to detect, then curr_detections is 0
@@ -63,11 +80,11 @@ function sendJson(object, timestamp){
     }else{
       if (detections.length > curr_detections || detections.length < curr_detections){
         curr_detections = detections.length;
-        sendJson(detections, now);
+        sendJson(getData, getDate, getTime);
       }
     }
 
-    console.log("Count current detections: " + curr_detections);
+    // console.log("Count current detections: " + curr_detections);
     background(220);
     image(video, 0, 0);
 
