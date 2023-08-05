@@ -37,7 +37,7 @@ function sendJson(object, date, time){
     cnv.style("margin-top", "2vh");
 
     background(220)
-    detector = ml5.objectDetector("cocossd");
+    detector = ml5.objectDetector("models/yolov8n-best_web_model/model.json");
     video = createCapture(VIDEO);
     video.hide()
     video.size(640, 480);
@@ -98,7 +98,7 @@ function sendJson(object, date, time){
       rect(object.x, object.y, object.width, object.height)
 
       // Create label for each object detected
-      noStroke();
+      stroke(0);
       fill(255);
       text(object.label, object.x + 10, object.y + 24);
     }
