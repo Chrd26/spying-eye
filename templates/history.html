@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}Detection History{% endblock %}
+{% block main %}
+    <div id="section-holder">
+        <span class="welcome">Detection History</span>
+        <div class="buttons">
+            <form action="/start" method="get">
+                <span class="desc">Start detecting objects.</span>
+                <button type="submit" class="btn btn-primary" id="start-detection">Start Detection</button>
+            </form>
+            <form action="/logout" method="post">
+                <span class="desc">Log out of the application.</span>
+                <button type="submit" class="btn btn-primary" id="logout-btn">Logout</button>
+            </form>
+            <form action="/history" method="post">
+                <span class="desc">Clear history.</span>
+                <button type="submit" class="btn btn-primary" id="visit-history">Clear History</button>
+            </form>
+        </div>
+        <!--Stylize table Source: https://getbootstrap.com/docs/4.0/content/tables/-->
+        <table class="table table-hover table-bordered">
+            <tr>
+                <th>Label</th>
+                <th>Confidence</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+            {% for item in database %}
+                <tr>
+                    <td>{{ item["label"] }}</td>
+                    <td>{{ item["confidence"] }}</td>
+                    <td>{{ item["date"] }}</td>
+                    <td>{{ item["time"] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

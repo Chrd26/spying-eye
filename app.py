@@ -177,7 +177,7 @@ def logout():
     return render_template("login.html", message = "You have logged out.")
 
 # User history of detections
-@app.route("/history", methods=["GET"])
+@app.route("/history", methods=["GET", "POST"])
 @flask_login.login_required
 def history():
     """Load up history page."""
@@ -185,16 +185,39 @@ def history():
     # Sources: https://stackoverflow.com/questions/47952830/flask-login-current-user and
     # https://flask-login.readthedocs.io/en/latest/#flask_login.current_user
     get_mail = flask_login.current_user.id
-    print(get_mail)
-    return render_template("index.html")
+    db = sqlite3.connect("database.db")
+    db.row_factory = dict_factory
+
+    # Clear history
+    if request.method == "POST":
+        db.execute("DELETE FROM detections WHERE mail = ?", (get_mail,))
+        db.commit()
+        db.close()
+        return render_template("history.html")
+
+    # Get detects db that corresponds to the user
+    get_db = db.execute("SELECT * FROM detections WHERE mail = ?", (get_mail,))
+    get_db = get_db.fetchall()
+    print(get_db)
+    db.close()
+    return render_template("history.html", database = get_db)
 
 # Get detection stats and add the mto the database
 @app.route("/stats", methods=["POST"])
 def stats():
-    """Receive data and add to database"""
+    """Receive data and add to database."""
     receive = request.get_json()
-    print(receive)
-    return "Nothing" 
+    get_mail = flask_login.current_user.id
+    db = sqlite3.connect("database.db")
+    db.row_factory = dict_factory
+
+    # Add to database
+    for object in receive["object"]:
+        db.execute("INSERT INTO detections (mail, label, confidence, date, time) VALUES(?, ?, ?, ?, ?)", (get_mail, object["label"], round(object["confidence"],2), receive["date"], receive["time"]))
+        db.commit()
+
+    db.close()
+    return "Nothing"
 
 # Check if the user tries to access without authorization
 @login_manager.unauthorized_handler

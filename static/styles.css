@@ -1,6 +1,6 @@
 html
 {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 body
@@ -170,10 +170,10 @@ body
 footer
 {
   display:block;
+  position: fixed;
   width:100vw;
   text-align:center;
   color:black;
-  position:absolute;
   margin:auto;
   bottom:0.5vh;
 }
