@@ -68,8 +68,7 @@ class User(flask_login.UserMixin):
             # login page with message
             db.close()
             return render_template("login.html", message = "Email not found")
-
-
+    
 
 # Login Page
 @app.route("/", methods=["GET", "POST"])
@@ -168,23 +167,36 @@ def index():
 @flask_login.login_required
 def start():
     """Start detecting objects."""
-    if request.method == "POST":
-        data = request.get_json()
-        print(data)
     return render_template("detection.html")
 
+# logout user
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
     """Log out user."""
     flask_login.logout_user()
     return render_template("login.html", message = "You have logged out.")
 
+# User history of detections
+@app.route("/history", methods=["GET"])
+@flask_login.login_required
+def history():
+    """Load up history page."""
+    # get current user's id
+    # Sources: https://stackoverflow.com/questions/47952830/flask-login-current-user and
+    # https://flask-login.readthedocs.io/en/latest/#flask_login.current_user
+    get_mail = flask_login.current_user.id
+    print(get_mail)
+    return render_template("index.html")
+
+# Get detection stats and add the mto the database
 @app.route("/stats", methods=["POST"])
 def stats():
+    """Receive data and add to database"""
     receive = request.get_json()
     print(receive)
-    return 
+    return "Nothing" 
 
+# Check if the user tries to access without authorization
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     """Handle anauthorized tries."""

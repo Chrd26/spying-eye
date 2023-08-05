@@ -12,7 +12,7 @@ function sendJson(object, date, time){
     contentType: "application/json;",
     data: JSON.stringify({"object": object, "date": date, "time": time}),
     dataType: "json",
-    url: "/start",
+    url: "/stats",
   })
 }
 
