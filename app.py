@@ -6,6 +6,7 @@ import flask_login
 
 # app
 app = Flask(__name__)
+app.secret_key = "thissecretkeyisactuallyquiteuseful!"
 
 # Run flask app with debug on, Source: https://www.askpython.com/python-modules/flask/flask-debug-mode
 app.debug = True
@@ -202,6 +203,7 @@ def history():
     # Get detects db that corresponds to the user
     get_db = db.execute("SELECT * FROM detections WHERE username = ?", (get_username,))
     get_db = get_db.fetchall()
+    get_db.reverse()
     print(get_db)
     db.close()
     return render_template("history.html", database = get_db)

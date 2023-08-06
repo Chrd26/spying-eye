@@ -39,12 +39,6 @@ body
   background: rgba(255, 255, 255, 0.5);
 }
 
-#submit{
-  display:block;
-  width:10vw;
-  margin:auto;
-  text-align:center;
-}
 
 #submit-btn, #register-btn, #to-login{
   display: block;
@@ -109,6 +103,13 @@ body
   max-height: 5vh;;
 }
 
+.buttons-detections > form > button{
+  width:12vw;
+  margin-bottom: 2vh;
+  overflow: hidden;
+  max-height: 5vh;;
+}
+
 .buttons > form, .buttons-detections > form{
   display:grid;
   grid-auto-flow: row;
@@ -128,6 +129,7 @@ body
 .desc{
   font-size:24px;
   font-weight:bold;
+  text-align:center;
 }
 
 #submit-btn{
@@ -197,17 +199,165 @@ footer
 
 @media screen and (max-width:500px)
 {
-  #desc-1
+  #username, #password, #username-label, #password-label, #confirm
   {
-    width:25rem;
-    left:-3vw;
+    display: block;
+    width: 50vw;
+    margin: auto;
+    text-align: center;
+    padding-top: 0.5vw;
+    margin-bottom:1vw;
   }
 
-  #desc-2
-  {
-    width:25rem;
-    right:-3vw;
+  #submit-btn, #register-btn, #to-login{
+    display: block;
+    width:40vw;
+    margin:auto;
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+    text-decoration: none;
   }
+
+  footer
+  {
+    display:none;
+  }
+
+  .desc{
+  font-size:15px;
+  font-weight:bold;
+  text-align:center;
+  }
+
+
+  .message-detections{
+    text-align: center;
+    font-weight:bold;
+    width:90vw;
+    margin:auto;
+    position: absolute;
+    top: 130vh;
+    left: 0;
+    right: 0;
+  }
+
+  .welcome{
+    font-weight: bold;
+    font-size: 80px;
+    text-align: center;
+    margin-top: 10vh;
+    width: 50vw;
+    display: block;
+  }
+
+  .buttons > form > button{
+   width:50vw;
+   margin-bottom: 5vh;
+   overflow: hidden;
+   max-height: 10vh;
+  }
+
+  .buttons-detections > form > button{
+    width:50vw;
+    margin-bottom: 5vh;
+    overflow: hidden;
+    max-height: 10vh;;
+  }
+
+
+  .buttons > form{
+    margin-left:15vw;
+
+  }
+
+  .buttons-detections > form{
+    margin-left: 15vw;
+  }
+
+
+  .buttons{  
+    display: grid; 
+    grid-template-rows: 1fr 1fr 1fr; 
+    gap: 0px 0px; 
+    align-items: center;
+    margin: auto;
+    width: 20em;
+    margin-top: 5vh;
+    margin-bottom: 10.7vh;
+    padding-top: 1vh;
+    
+  }
+  
+  .buttons-detections{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0px 0px;
+    align-items: center;
+    justify-items: center;
+    margin: auto;
+    width: 20em;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+  }
+
+
+  .message{
+    text-align: center;
+    margin-top: 7vh;
+    position: absolute;
+    top: 63vh;
+    left: 0;
+    right: 0;
+  }
+
+}
+
+@media screen and (max-width:900px) and (min-width:500px)
+{
+  #username, #password, #username-label, #password-label, #confirm
+  {
+    display: block;
+    width: 25vw;
+    margin: auto;
+    text-align: center;
+    padding-top: 0.5vw;
+    margin-bottom:1vw;
+  }
+
+  #submit-btn, #register-btn, #to-login{
+    display: block;
+    width:20vw;
+    margin:auto;
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+    text-decoration: none;
+  }
+
+  footer
+  {
+    display:block;
+    position: fixed;
+    width:90vw;
+    text-align:center;
+    color:black;
+    margin:auto;
+    bottom:1vh;
+  }
+
+  .buttons > form > button{
+   width:20vw;
+   margin-bottom: 5vh;
+   overflow: hidden;
+   max-height: 5vh;;
+  }
+
+  .buttons-detections > form > button{
+    width:20vw;
+    margin-bottom: 5vh;
+    overflow: hidden;
+    max-height: 5vh;;
+  }
+
 }
 
 /*Animations*/
@@ -225,45 +375,5 @@ footer
     background-position: 0% 50%;
   }
 
-}
-
-@keyframes movedesc1
-{
-  0%
-  {
-    left:10vw;
-  }
-
-  100%
-  {
-    left:120vw;
-  }
-}
-
-@keyframes movedesc2
-{
-  0%
-  {
-    right:10vw;
-  }
-
-  100%
-  {
-    right:120vw;
-  }
-}
-
-
-@keyframes moveButton
-{
-  0%
-  {
-    top:80vh;
-  }
-
-  100%
-  {
-    top:120vh;
-  }
 }
 

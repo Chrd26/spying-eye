@@ -35,6 +35,7 @@ function sendJson(object, date, time){
     cnv.style("display", "block");
     cnv.style("margin", "auto");
     cnv.style("margin-top", "2vh");
+    cnv.style("max-width", "90vw");
 
     background(220)
     detector = ml5.objectDetector("models/yolov8n-best_web_model/model.json");
