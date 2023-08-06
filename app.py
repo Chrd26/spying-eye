@@ -22,7 +22,7 @@ class User(flask_login.UserMixin):
     """Handle session."""
 
     @login_manager.user_loader
-    def user_loader(email):
+    def user_loader(username):
         """Load user."""
         db = sqlite3.connect("database.db")
         db.row_factory = dict_factory
@@ -35,22 +35,25 @@ class User(flask_login.UserMixin):
         # instead of using a for loop
         # Source: https://www.geeksforgeeks.org/enumerate-in-python/
         for elem in enumerate(users):
-            if elem[1]["mail"] == email:
+            if elem[1]["username"] == username:
                 user = User()
-                user.id = email
+                user.id =  username
                 db.close
                 return user
 
         # return
         # login page with message
         db.close()
-        return render_template("login.html", message = "Email not found")
+        return render_template("login.html", message = "User not found")
 
     @login_manager.request_loader
     def request_loader(request):
         """Request Loader."""
-        if request.method == "POST":
-            email = request.form.get("mail")
+        # Make sure that /register doesn't trigger that. Source: 
+        # https://stackoverflow.com/questions/15974730/how-do-i-get-the-different-parts-of-a-flask-requests-url
+        if request.method == "POST" and str(request.url_rule) != "/register":
+
+            username = request.form["username"]
             db = sqlite3.connect("database.db")
             db.row_factory = dict_factory
             users = db.execute("SELECT * FROM users")
@@ -58,16 +61,16 @@ class User(flask_login.UserMixin):
 
             # Enumerate users
             for elem in enumerate(users):
-                if elem[1]["mail"] == email:
+                if elem[1]["username"] == username:
                     user = User()
-                    user.id = email
+                    user.id = username
                     db.close
                     return user
         
             # if email not found, then return nothing
             # login page with message
             db.close()
-            return render_template("login.html", message = "Email not found")
+            return render_template("login.html", message = "User not found")
     
 
 # Login Page
@@ -79,10 +82,10 @@ def login():
         db = sqlite3.connect("database.db")
 
         # Get Info
-        mail = request.form["mail"]
+        username = request.form["username"]
         password = request.form["password"]
-        print(mail)
-        get_password = db.execute("SELECT hash FROM users WHERE mail = ?", (mail,))
+        print(username)
+        get_password = db.execute("SELECT hash FROM users WHERE username = ?", (username,))
 
         # Get the first element of fetchone()
         # this removes any parentheses,
@@ -101,7 +104,7 @@ def login():
         # and https://pydoc.dev/werkzeug/latest/werkzeug.security.html#check_password_hash
         if check_password_hash(db_password, str(password)):
             user = User()
-            user.id = mail
+            user.id = username 
             flask_login.login_user(user)
             db.close()
             return redirect(url_for("index")) 
@@ -123,27 +126,29 @@ def register():
         # commit any changes to the database
         # source: https://docs.python.org/3/library/sqlite3.html
         db = sqlite3.connect("database.db")
-
+        #cprint(str(request.url_rule) == "/register")
         # Get mail, hashed password, confirmation and check if mail already exists
         # source: https://pydoc.dev/werkzeug/latest/werkzeug.security.html#check_password_hash
         # and https://werkzeug.palletsprojects.com/en/2.3.x/utils/
-        mail = request.form["mail"]
-        confirmation = request.form["confirmation"]
+        username = request.form["username"]
+        confirmation = request.form["confirm"]
         password_input = request.form["password"]
 
         if confirmation != password_input:
-            return render_template("register.html", message="Password and confirmation fields must be the same")
+            db.close()
+            return render_template("register.html", message = 
+                                   "Make sure that both passwords are the same")
 
         password = generate_password_hash(request.form["password"], "scrypt")
-        get_mail = db.execute("SELECT mail FROM users WHERE mail=mail")
+        get_mail = db.execute("SELECT username FROM users WHERE username = ?", (username,))
         print(get_mail.fetchone())
-        print(mail)
+        print(username)
         print(password)
 
         if get_mail.fetchone() is None:
             # Add mail and hash to the database and
             # return login.html with a success message
-            db.execute("INSERT INTO users (mail, hash) VALUES (?, ?)", (mail, password))
+            db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", (username, password))
             db.commit()
             db.close()
             return render_template("login.html", message =
@@ -151,7 +156,7 @@ def register():
 
         # If mail exists in the database, render register.html again
         # and display a failed message
-        return render_template("register.html", message = "Email already exists.")
+        return render_template("register.html", message = "Username already exists.")
         # Check if user contains special characters
     return render_template("register.html")
 
@@ -184,19 +189,19 @@ def history():
     # get current user's id
     # Sources: https://stackoverflow.com/questions/47952830/flask-login-current-user and
     # https://flask-login.readthedocs.io/en/latest/#flask_login.current_user
-    get_mail = flask_login.current_user.id
+    get_username = flask_login.current_user.id
     db = sqlite3.connect("database.db")
     db.row_factory = dict_factory
 
     # Clear history
     if request.method == "POST":
-        db.execute("DELETE FROM detections WHERE mail = ?", (get_mail,))
+        db.execute("DELETE FROM detections WHERE username = ?", (get_username,))
         db.commit()
         db.close()
         return render_template("history.html")
 
     # Get detects db that corresponds to the user
-    get_db = db.execute("SELECT * FROM detections WHERE mail = ?", (get_mail,))
+    get_db = db.execute("SELECT * FROM detections WHERE username = ?", (get_username,))
     get_db = get_db.fetchall()
     print(get_db)
     db.close()
@@ -207,13 +212,13 @@ def history():
 def stats():
     """Receive data and add to database."""
     receive = request.get_json()
-    get_mail = flask_login.current_user.id
+    get_username = flask_login.current_user.id
     db = sqlite3.connect("database.db")
     db.row_factory = dict_factory
 
     # Add to database
     for object in receive["object"]:
-        db.execute("INSERT INTO detections (mail, label, confidence, date, time) VALUES(?, ?, ?, ?, ?)", (get_mail, object["label"], round(object["confidence"],2), receive["date"], receive["time"]))
+        db.execute("INSERT INTO detections (username, label, confidence, date, time) VALUES(?, ?, ?, ?, ?)", (get_username, object["label"], round(object["confidence"],2), receive["date"], receive["time"]))
         db.commit()
 
     db.close()

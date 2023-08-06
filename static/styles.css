@@ -19,7 +19,7 @@ body
 }
 
 
-#mail, #password, #mail-label, #password-label, #confirmation{
+#username, #password, #username-label, #password-label, #confirm{
   display: block;
   width: 15vw;
   margin: auto;
@@ -28,14 +28,14 @@ body
   margin-bottom:1vw;
 }
 
-#mail-label, #password-label{
+#username-label, #password-label{
   margin-top: 1vh;
   margin-bottom: 1vh;
   font-size: larger;
   font-weight:bold;
 }
 
-#mail, #password, #confirmation{
+#username, #password, #confirm{
   background: rgba(255, 255, 255, 0.5);
 }
 

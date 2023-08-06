@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Register{% endblock %}
 <!-- Main body content-->
 {% block main %}
-    <div id="section-holder" style="background-color:rgba(255, 255, 255, 0.6)">
+    <div id="section-holder">
         <form action="/register" method="post" id="login">
-            <label for="user" id="mail-label">Email</label>
-            <input type="mail"
-                   placeholder="name@example.com"
-                   name="mail"
-                   id="mail"
+            <label for="username" id="username-label">Username</label>
+            <input type="text"
+                   placeholder="username"
+                   name="username"
+                   id="username"
                    class="form-control-md"
                    required>
             <label for="password" id="password-label">Password</label>
@@ -19,16 +19,12 @@
                    class="form-control-md"
                    required>
             <input type="password"
-                   placeholder="Confirm password"
-                   mame="confirmation"
-                   id="confirmation"
+                   placeholder="confirm password"
+                   name="confirm"
+                   id="confirm"
                    class="form-control-md"
                    required>
-            <button type="submit"
-                    id="submit-btn"
-                    class="btn btn-primary"
-                    pattern=".{8}"
-                    title="Use 8 or more characters">Register</button>
+            <button type="submit" id="submit-btn" class="btn btn-primary">Register</button>
             <!--Call register page when button is pressed-->
         </form>
         <form action="/" method="get">
