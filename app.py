@@ -6,7 +6,6 @@ import flask_login
 
 # app
 app = Flask(__name__)
-app.secret_key = "gatherthosewhoareweak!"
 
 # Run flask app with debug on, Source: https://www.askpython.com/python-modules/flask/flask-debug-mode
 app.debug = True
