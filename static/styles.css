@@ -147,6 +147,16 @@ body
   right: 0;
 }
 
+.message-detections{
+  text-align: center;
+  font-weight:bold;
+  margin-top: 13vh;
+  position: absolute;
+  top: 70vh;
+  left: 0;
+  right: 0;
+}
+
 #headline
 {
   position:fixed;
