@@ -236,7 +236,7 @@ footer
     width:90vw;
     margin:auto;
     position: absolute;
-    top: 130vh;
+    top: 140vh;
     left: 0;
     right: 0;
   }
@@ -274,7 +274,6 @@ footer
     margin-left: 15vw;
   }
 
-
   .buttons{  
     display: grid; 
     grid-template-rows: 1fr 1fr 1fr; 
@@ -299,7 +298,6 @@ footer
     margin-top: 5vh;
     margin-bottom: 5vh;
   }
-
 
   .message{
     text-align: center;
