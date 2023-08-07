@@ -21,7 +21,7 @@ function sendJson(object, date, time){
     if (error){
       console.log(error);
     }else{
-      console.log(results);
+      // console.log(results);
       detections = results;
       detector.detect(video, gotDetections);
     }
