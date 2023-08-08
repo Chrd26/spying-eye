@@ -3,9 +3,10 @@ import sqlite3
 from flask import Flask, render_template, session, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash 
 import flask_login
-
+from flask_cors import CORS
 # app
 app = Flask(__name__)
+CORS(app)
 app.secret_key = "thissecretkeyisactuallyquiteuseful!"
 
 # Run flask app with debug on, Source: https://www.askpython.com/python-modules/flask/flask-debug-mode
