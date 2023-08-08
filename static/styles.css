@@ -8,7 +8,7 @@ body
   background: rgb(169,107,210);
   background: linear-gradient(90deg, rgba(169,107,210,1) 0%, rgba(218,124,124,1) 50%, rgba(187,138,69,1) 100%);
   background-size: 400% 400%;
-  animation: animatedgradient 100s ease infinite;
+  animation: animatedgradient 400s ease infinite alternate;
   height: 100vh;
   width:100vw;
 }
