@@ -39,10 +39,12 @@ function sendJson(object, date, time){
 
     background(220)
     detector = ml5.objectDetector("models/yolov8n-best_web_model/model.json");
+    // User the back camera if possible, otherwise use the front camera
+    // https://www.digitalocean.com/community/tutorials/front-and-rear-camera-access-with-javascripts-getusermedia
+    // Ideal makes the device look for the "environment" camera first, if there is not one, then use the user camera.
     video = createCapture({video: {facingMode: {ideal: "environment"}}, audio: false});
-    //createCapture({video: {facingMode: facingUser ? 'user' : 'environment'}, audio: "false"});
     video.hide()
-    // video.size(640, 480);
+    //video.size(width, height);
     detector.detect(video, gotDetections);
   }
 
@@ -88,7 +90,9 @@ function sendJson(object, date, time){
 
     // console.log("Count current detections: " + curr_detections);
     background(220);
-    image(video, 0, 0);
+    // Make sure the video takes up the whole canvas
+    // source: https://stackoverflow.com/questions/62686362/stretch-a-video-in-p5-js
+    image(video, 0, 0, width, height);
 
     for (let i = 0; i < detections.length; i++){
       let object = detections[i];
