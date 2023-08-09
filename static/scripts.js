@@ -39,7 +39,7 @@ function sendJson(object, date, time){
 
     background(220)
     detector = ml5.objectDetector("models/yolov8n-best_web_model/model.json");
-    video = createCapture({video: {facingMode: {ideal: "environment"}}, audio: "false"});
+    video = createCapture({video: {facingMode: {ideal: "environment"}}, audio: false});
     //createCapture({video: {facingMode: facingUser ? 'user' : 'environment'}, audio: "false"});
     video.hide()
     // video.size(640, 480);
