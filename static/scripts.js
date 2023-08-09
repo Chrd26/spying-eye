@@ -35,24 +35,24 @@ function sendJson(object, date, time){
     cnv.style("display", "block");
     cnv.style("margin", "auto");
     cnv.style("margin-top", "2vh");
-    // cnv.style("max-width", "90vw");
+    cnv.style("max-width", "100%");
 
     background(220)
     detector = ml5.objectDetector("models/yolov8n-best_web_model/model.json");
-    video = createCapture(VIDEO);
+    video = createCapture({video: facingMode: {exact: "environment")}};
     video.hide()
-    video.size(640, 480);
+    // video.size(640, 480);
     detector.detect(video, gotDetections);
   }
 
   function draw(){
-    // Get date and local time using JSJoda
-    // Js Joda is a simple library which is used to handle time and dates.
+    // Get the date and local time using JSJoda
+    // Js Joda is a simple library that handles time and dates.
     let getDateTime = JSJoda.ZonedDateTime.now() 
 
     let getData;
 
-    // Get the hours, minutes and seconds by concatenation
+    // Get the hours, minutes, and seconds by concatenation
     let getTime = getDateTime["_dateTime"]["_time"]["_hour"].toString() + ":"  
                   + getDateTime["_dateTime"]["_time"]["_minute"].toString() + ":" 
                   + getDateTime["_dateTime"]["_time"]["_second"].toString();
@@ -62,8 +62,8 @@ function sendJson(object, date, time){
                   + getDateTime["_dateTime"]["_date"]["_day"];
 
     // Get only the label value by using the map method
-    // Wnen we want to return an object with multiple values, we must 
-    // make sure that the object is in parentheses
+    // When we want to return an object with multiple values, we must 
+    //Make sure that the object is in parentheses
     // return ({key1: "value1", key2: "value2"})
     getData = detections.map(detection => ({label:detection["label"],confidence:detection["confidence"]}));
     // console.log(getDateTime);
@@ -74,8 +74,8 @@ function sendJson(object, date, time){
 
     // Handle detections to send them to the server
     // When there is not anything to detect, then curr_detections is 0
-    // If detections exit, assign the amount of detections to curr_detections
-    // Only if the value of detections.length is bigger or lower
+    // If detections exit, assign the number of detections to curr_detections
+    // Only if the value of detections. length is bigger or lower
     if (detections.length == 0){
       curr_detections = 0;
     }else{
