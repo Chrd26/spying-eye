@@ -27,8 +27,8 @@ function sendJson(object, date, time){
     }
   }
 
-  function setup(){
-    // Create Canvas in certain position, and add it as a child to a div element
+  async function setup(){
+    // Create Canvas in a certain position, and add it as a child to a div element
     // source: https://github.com/processing/p5.js/wiki/Positioning-your-canvas
     let cnv = createCanvas(640,480);
     cnv.parent("sketch-element");
@@ -42,7 +42,7 @@ function sendJson(object, date, time){
     // User the back camera if possible, otherwise use the front camera
     // https://www.digitalocean.com/community/tutorials/front-and-rear-camera-access-with-javascripts-getusermedia
     // Ideal makes the device look for the "environment" camera first, if there is not one, then use the user camera.
-    video = createCapture({video: {facingMode: {ideal: "environment"}}, audio: false});
+    video = await createCapture({video: {facingMode: {ideal: "environment"}}, audio: false});
     video.hide()
     //video.size(width, height);
     detector.detect(video, gotDetections);
