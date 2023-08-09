@@ -16,6 +16,12 @@ function sendJson(object, date, time){
   })
 }
 
+  // IMPORTANT! 
+  // Callback functions are important to run ml5js with p5js properly.
+  // If done otherwise, then you will get the following error:
+  // [Error] Unhandled Promise Rejection: Error: The video element has not loaded data yet. Please wait for `loadeddata` event on the <video> element.
+  // To not have such issues, use this template to set up the project: https://github.com/ml5js/ml5-library/blob/main/examples/p5js/ObjectDetector/ObjectDetector_COCOSSD_Video/sketch.js
+
   // Get results for detections
   function gotDetections(error, results){
     if (error){
