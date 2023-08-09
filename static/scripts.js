@@ -43,7 +43,7 @@ function sendJson(object, date, time){
     // https://www.digitalocean.com/community/tutorials/front-and-rear-camera-access-with-javascripts-getusermedia
     // Ideal makes the device look for the "environment" camera first, if there is not one, then use the user camera.
     video = createCapture({video: {facingMode: {ideal: "environment"}}, audio: false});
-    video.addEventListener("loadeddata", (event) => {console.log("Ready!")};
+    video.addEventListener("loadeddata", (event) => {console.log("Ready!"});
     video.hide()
     //video.size(width, height);
     detector.detect(video, gotDetections);
