@@ -93,7 +93,7 @@ def login():
         # Source: https://stackoverflow.com/questions/25655531/python-sqlite-return-value
         try:
             db_password = str(get_password.fetchone()[0])
-        except db_password:
+        except:
             db.close()
             return render_template("login.html", message = "User not found")
 
