@@ -45,7 +45,7 @@ class User(flask_login.UserMixin):
         # return
         # login page with message
         db.close()
-        return render_template("login.html", message = "User not found")
+        return redirect(url_for("index", message = "User not found!")) 
 
     @login_manager.request_loader
     def request_loader(request):
