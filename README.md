@@ -63,7 +63,36 @@ For deployment, I decided to use docker to make things easier with dependencies.
 
 Then, I had to find a place to host my web application. After looking around for a lot of hours, this exhausting adventure lead me to a Reddit page where there was a comment by a user who suggested giving render.com a try. I visited render and lo and behold! My web application is live and thanks to docker the dependencies are managed very smoothly. The free tier of render is quite limiting but is enough for my web which I do not expect to get much attention.
 
-
 ## This is it!
 
 Now the application is up and running and works quite nicely. 
+
+## To run the application locally
+
+Before starting make sure that you have cd into the project's directory.
+
+First create a virtual python environment running the following command:
+
+```
+python3 -m venv enviromentname
+```
+
+Then run this to activate the virtual environment:
+
+```
+source enviromentname/bin/activate
+```
+
+Let's install the dependencies:
+
+```
+pip3 install -r requirements.txt
+```
+
+Now everything is ready! Run the web application by typing the following:
+
+```
+flask run
+```
+
+Copy and paste the local URL in the browser's address bar, enjoy!
