@@ -71,7 +71,7 @@ class User(flask_login.UserMixin):
             # if email not found, then return nothing
             # login page with message
             db.close()
-            return render_template("login.html", message = "User not found")
+            return redirect(url_for("index", message = "User not found!")) 
     
 
 # Login Page
